@@ -17,7 +17,7 @@ x_test = torch.linspace(0, 2, 400).view(-1, 1)
 u_test = true_u(x_test)
 
 # sparse training data
-x_train = torch.linspace(0, 2, 4).view(-1, 1)
+x_train = torch.rand(4,1)
 u_train = true_u(x_train)
 
 # collocation points for pinn error calculation
@@ -51,6 +51,9 @@ mse = nn.MSELoss()
 # training
 epochs = 5000
 
+x_bc = torch.tensor([[0.0], [3.0]])
+u_bc = torch.tensor([[0.0], [0.0]])
+
 for epoch in tqdm(range(epochs)):
 
     # standard network
@@ -78,8 +81,6 @@ for epoch in tqdm(range(epochs)):
     loss_phys = mse(-grad2, f)
 
     # enforcing boundary conditions
-    x_bc = torch.tensor([[0.0], [3.0]])
-    u_bc = torch.tensor([[0.0], [0.0]])
     loss_bc = mse(pinn_model(x_bc), u_bc)
 
     loss_pinn = 10*loss_data + loss_phys + 10*loss_bc
