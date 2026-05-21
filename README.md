@@ -5,7 +5,7 @@ Basic PINN implementation for now
 
 - [ ] More complex PDEs
     - [x] Heat diffusion
-    - [ ] 1D Langevin
+    - [x] 1D Langevin
     - [ ] Reaction-diffusion
 - [ ] [Mollifier Layers](https://arxiv.org/abs/2505.11682)
 - [ ] PDE forward solver for Dupire
