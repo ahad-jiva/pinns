@@ -161,7 +161,7 @@ axes[2].set_xlabel("t")
 axes[2].set_ylabel("x")
 plt.colorbar(im2, ax=axes[2])
 
-plt.suptitle("heat equation solution: NN vs PINN")
+plt.suptitle("langevin equation solution: NN vs PINN")
 plt.tight_layout()
 plt.show()
 
