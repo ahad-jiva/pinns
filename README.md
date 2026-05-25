@@ -7,7 +7,7 @@ Basic PINN implementation for now
     - [x] Heat diffusion
     - [x] 1D Langevin
     - [x] Reaction-diffusion
-- ~~[ ] [Mollifier Layers](https://arxiv.org/abs/2505.11682)~~ WOW this is hard, putting off for now
+- [ ] ~~[Mollifier Layers](https://arxiv.org/abs/2505.11682)~~ WOW this is hard, putting off for now
 - [ ] PDE forward solver for Dupire
 - [ ] Recovering local vol
 - [ ] Arb soft penalties?
