@@ -34,10 +34,6 @@ u_data = true_u(x_data, t_data)
 # interior collocation points for pde residual
 N = 2000
 
-# interior region, random scatter over full (x, t) domain
-x_col = torch.rand(N, 1, requires_grad=True)
-t_col = torch.rand(N, 1, requires_grad=True)
-
 # initial conditions: t = 0, random x
 N_ic = 100
 x_ic = torch.rand(N_ic, 1)
@@ -90,6 +86,10 @@ for epoch in tqdm(range(epochs)):
 
     # pinn
     pinn_opt.zero_grad()
+    
+    # interior region, random scatter over full (x, t) domain
+    x_col = torch.rand(N, 1, requires_grad=True)
+    t_col = torch.rand(N, 1, requires_grad=True)
 
     # collocation points/physics loss on interior
     u_pred_col = pinn_model(torch.cat([x_col, t_col], dim=1))
