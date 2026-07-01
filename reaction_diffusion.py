@@ -81,9 +81,10 @@ pinn_opt = optim.Adam(pinn_model.parameters(), lr=1e-3)
 # mse loss
 mse = nn.MSELoss()
 
-# training
+# nn training
 epochs = 5000
 pbar = tqdm(range(epochs))
+
 for epoch in pbar:
 
     # standard nn
@@ -92,6 +93,13 @@ for epoch in pbar:
     loss_nn = mse(u_pred, u_data)
     loss_nn.backward()
     nn_opt.step()
+
+    if epoch % 20 == 0:
+        pbar.set_postfix(loss_nn=f"{loss_nn.item():.4f}")
+
+epochs = 5000
+pbar = tqdm(range(epochs))
+for epoch in pbar:
 
     # pinn
     pinn_opt.zero_grad()
@@ -131,7 +139,7 @@ for epoch in pbar:
     pinn_opt.step()
     
     if epoch % 20 == 0:
-        pbar.set_postfix(loss_pinn=f"{loss_pinn.item():.4f}", loss_nn=f"{loss_nn.item():.4f}")
+        pbar.set_postfix(loss_pinn=f"{loss_pinn.item():.4f}")
 
 lbfgs_opt = optim.LBFGS(
     pinn_model.parameters(),
