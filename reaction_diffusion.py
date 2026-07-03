@@ -15,7 +15,7 @@ np.random.seed(0)
 
 # ground truth
 def true_u(x, t):
-    return torch.sin(np.pi * x) * torch.cos(t)
+    return torch.sin(np.pi * x) * torch.cos(t) + np.random.normal(0, 0.05) # additive gaussian noise
 
 # device
 device = torch.device("mps" if torch.mps.is_available() else "cpu")
