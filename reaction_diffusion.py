@@ -165,8 +165,7 @@ for _ in pbar:
         u_xxx = torch.autograd.grad(u_xx, x_col_lbfgs, grad_outputs=torch.ones_like(u_xx), create_graph=True)[0]
         u_xxxx = torch.autograd.grad(u_xxx, x_col_lbfgs, grad_outputs=torch.ones_like(u_xxx), create_graph=True)[0]
 
-        f_col = -torch.sin(np.pi * x_col_lbfgs) * torch.sin(t_col_lbfgs) + \
-                (np.pi**4 + np.pi**2) * torch.sin(np.pi * x_col_lbfgs) * torch.cos(t_col_lbfgs)
+        f_col = -torch.sin(np.pi * x_col_lbfgs) * torch.sin(t_col_lbfgs) + (np.pi**4 + np.pi**2) * torch.sin(np.pi * x_col_lbfgs) * torch.cos(t_col_lbfgs)
         residual = u_t + u_xxxx - u_xx - f_col
         loss_col = mse(residual, torch.zeros_like(residual))
 
@@ -175,8 +174,7 @@ for _ in pbar:
 
         xt_left = torch.cat([x_left, t_bc], dim=1).to(device)
         xt_right = torch.cat([x_right, t_bc], dim=1).to(device)
-        loss_bc = mse(pinn_model(xt_left), torch.zeros_like(pinn_model(xt_left))) + \
-                  mse(pinn_model(xt_right), torch.zeros_like(pinn_model(xt_right)))
+        loss_bc = mse(pinn_model(xt_left), torch.zeros_like(pinn_model(xt_left))) + mse(pinn_model(xt_right), torch.zeros_like(pinn_model(xt_right)))
 
         loss = loss_col + 10 * loss_ic + loss_bc
         loss.backward()
