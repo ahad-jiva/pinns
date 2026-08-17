@@ -17,7 +17,7 @@ x_test = torch.linspace(0, 2, 400).view(-1, 1)
 u_test = true_u(x_test)
 
 # sparse training data
-x_train = torch.rand(4,1)
+x_train = torch.rand(6,1)
 u_train = true_u(x_train)
 
 # collocation points for pinn error calculation

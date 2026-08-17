@@ -14,7 +14,7 @@ np.random.seed(0)
 def true_u(x, t, mu0=2.0, sigma0=0.5, k=1.0, gamma=1.0, D=0.1):
     mu = mu0 * torch.exp(-k * t / gamma)
     var = (D * gamma / k) + (sigma0**2 - D * gamma / k) * torch.exp(-2 * k * t / gamma)
-    return (1 / torch.sqrt(2 * np.pi * var)) * torch.exp(-0.5 * (x - mu)**2 / var)
+    return (1 / torch.sqrt(2 * np.pi * var)) * torch.exp(-0.5 * (x - mu)**2 / var) + np.random.normal(0, 0.1)
 
 # dense grid for eval
 x_test = torch.linspace(-4, 4, 500)

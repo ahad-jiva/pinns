@@ -13,7 +13,7 @@ np.random.seed(0)
 
 # ground truth function
 def true_u(x, t, alpha=0.05):
-    return torch.sin(np.pi * x) * torch.exp(-np.pi**2 * alpha * t)
+    return torch.sin(np.pi * x) * torch.exp(-np.pi**2 * alpha * t) + np.random.normal(0, 0.1) # additive gaussian noise
 
 # dense grid for eval
 x_test = torch.linspace(0, 1, 500)
