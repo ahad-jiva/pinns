@@ -16,9 +16,9 @@ def rbf_kernel_1d(x, l):
     kernel_matrix = np.exp(-dist_matrix / (2 * l ** 2))
     return kernel_matrix
 
-def rbf_kernel_2d(points, l):
+def rbf_kernel_2d(points, l, var=1):
     dist_matrix = cdist(points, points, metric='euclidean')
-    kernel_matrix = np.exp(-dist_matrix / (2 * l ** 2))
+    kernel_matrix = var * np.exp(-dist_matrix / (2 * l ** 2))
     return kernel_matrix
 
 c1 = rbf_kernel_1d(x1, 1.0)
@@ -30,19 +30,16 @@ L = np.linalg.cholesky(c1)
 xi = np.random.rand(L.shape[1])
 
 # calculate field
-Z = 0 + L @ xi
+Z = 0 + L @ xi # mean function almost always zero
 
 #plt.plot(Z)
 #plt.show()
 
-c2 = rbf_kernel_2d(points, 0.5)
+c2 = rbf_kernel_2d(points, 0.65)
 L = np.linalg.cholesky(c2)
 xi = np.random.rand(L.shape[1])
 Z = 0 + L @ xi
-print(Z.shape)
 Z = np.reshape(Z, (100,100))
-print(Z.shape)
-print(Z)
 rows, cols = Z.shape
 x, y, = np.meshgrid(np.arange(cols), np.arange(rows))
 plt.scatter(x.ravel(), y.ravel(), c=Z.ravel(), cmap='plasma', s=6)
