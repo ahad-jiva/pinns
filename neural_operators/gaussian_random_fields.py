@@ -27,7 +27,7 @@ c1 = rbf_kernel_1d(x1, 1.0)
 L = np.linalg.cholesky(c1)
 
 # draw uncorrelated noise
-xi = np.random.rand(L.shape[1])
+xi = np.random.randn(L.shape[1])
 
 # calculate field
 Z = 0 + L @ xi # mean function almost always zero
@@ -35,9 +35,9 @@ Z = 0 + L @ xi # mean function almost always zero
 #plt.plot(Z)
 #plt.show()
 
-c2 = rbf_kernel_2d(points, 0.65)
+c2 = rbf_kernel_2d(points, 1.0)
 L = np.linalg.cholesky(c2)
-xi = np.random.rand(L.shape[1])
+xi = np.random.randn(L.shape[1])
 Z = 0 + L @ xi
 Z = np.reshape(Z, (100,100))
 rows, cols = Z.shape
