@@ -50,9 +50,9 @@ class DeepONet(nn.Module):
         )
         self.trunk = nn.Sequential(
             nn.Linear(1, 128),
-            nn.Tanh(),
+            nn.ReLU(),
             nn.Linear(128, 128),
-            nn.Tanh(),
+            nn.ReLU(),
             nn.Linear(128, p)
         )
         self.bias = nn.Parameter(torch.zeros(1))
@@ -65,7 +65,7 @@ class DeepONet(nn.Module):
 
 sensor_points = 100
 batch_size = 64
-domain_length = 1.0
+domain_length = 5.0
 epochs = 5000
 
 x_sensors, L = grf_kernel(sensor_points, l=0.2, domain_size = domain_length)
@@ -93,16 +93,20 @@ for epoch in tqdm(range(epochs)):
 # testing on a simple function
 model.eval()
 
-a_test = 2 * x_sensors
+#a_test = np.where(x_sensors < 2.5, -1.0, 1.0)
+a_test = np.sin(40 * np.pi * x_sensors)
 a_test_batch = a_test[None, :]
 
-u_true = x_sensors ** 2
+#u_true = np.abs(x_sensors - 2.5) - 2.5
+u_true = (-1/(40 * np.pi)) * np.cos(40 * np.pi * x_sensors) + (1/(40 * np.pi))
 
 y_query_test = torch.tensor(x_sensors, dtype=torch.float32).unsqueeze(-1).to(device)
 
 x_finer = np.linspace(0, domain_length, 500)
 y_query_fine = torch.tensor(x_finer, dtype=torch.float32).unsqueeze(-1).to(device)
-u_true_fine = x_finer ** 2
+#u_true_fine = np.abs(x_finer - 2.5) - 2.5
+u_true_fine = (-1/(40 * np.pi)) * np.cos(40 * np.pi * x_finer) + (1/(40 * np.pi))
+
 
 with torch.no_grad():
     u_in = torch.tensor(a_test_batch, dtype=torch.float32, device=device)
@@ -116,5 +120,7 @@ mse_finer = np.mean((pred_finer_grid - u_true_fine) ** 2)
 print(f"mse on same grid = {mse_same:.6f}")
 print(f"mse on finer grid = {mse_finer:.6f}")
 
-plt.plot(pred_finer_grid)
+plt.plot(x_sensors, pred_same_grid)
+plt.plot(x_finer, pred_finer_grid)
+plt.plot(x_finer, u_true_fine)
 plt.show()
