@@ -13,12 +13,12 @@ points = np.stack([X.ravel(), Y.ravel()], axis=-1)
 
 def rbf_kernel_1d(x, l):
     dist_matrix = np.abs(x[:, None] - x[None, :])
-    kernel_matrix = np.exp(-dist_matrix / (2 * l ** 2))
+    kernel_matrix = np.exp(-dist_matrix ** 2 / (2 * l ** 2))
     return kernel_matrix
 
 def rbf_kernel_2d(points, l, var=1):
     dist_matrix = cdist(points, points, metric='euclidean')
-    kernel_matrix = var * np.exp(-dist_matrix / (2 * l ** 2))
+    kernel_matrix = var * np.exp(-dist_matrix ** 2 / (2 * l ** 2))
     return kernel_matrix
 
 c1 = rbf_kernel_1d(x1, 1.0)
